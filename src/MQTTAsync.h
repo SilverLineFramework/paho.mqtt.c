@@ -200,15 +200,15 @@
 /**
  * MQTT version to connect with: 3.1
  */
-#define MQTTVERSION_3_1 3
+#define MQTTVERSION_3_1 0x83
 /**
  * MQTT version to connect with: 3.1.1
  */
-#define MQTTVERSION_3_1_1 4
+#define MQTTVERSION_3_1_1 0x84
 /**
  * MQTT version to connect with: 5
  */
-#define MQTTVERSION_5 5
+#define MQTTVERSION_5 0x85
 /**
  * Bad return code from subscribe, as defined in the 3.1.1 specification
  */
