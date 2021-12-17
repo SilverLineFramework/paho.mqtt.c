@@ -1657,6 +1657,7 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 {
 	MQTTClients* m = handle;
 	MQTTResponse response;
+    m->c->is_bridge = options->is_bridge;
 
 	if (m->c->MQTTVersion >= MQTTVERSION_5)
 		return MQTTCLIENT_WRONG_MQTT_VERSION;

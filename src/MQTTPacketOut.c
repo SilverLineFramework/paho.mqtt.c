@@ -76,12 +76,12 @@ int MQTTPacket_send_connect(Clients* client, int MQTTVersion,
 	if (MQTTVersion == MQTTVERSION_3_1)
 	{
 		writeUTF(&ptr, "MQIsdp");
-		writeChar(&ptr, (char)MQTTVERSION_3_1);
+		writeChar(&ptr, (char)(MQTTVERSION_3_1 | (client->is_bridge << 7)));
 	}
 	else if (MQTTVersion == MQTTVERSION_3_1_1 || MQTTVersion == MQTTVERSION_5)
 	{
 		writeUTF(&ptr, "MQTT");
-		writeChar(&ptr, (char)MQTTVersion);
+		writeChar(&ptr, (char)(MQTTVersion | (client->is_bridge << 7)));
 	}
 	else
 		goto exit;

@@ -921,6 +921,11 @@ typedef struct
 	 * MQTTVERSION_5 (5) = only try version 5.0
 	 */
 	int MQTTVersion;
+    /**
+     * is_bridge flag that decides whether to connect as a bridge simulation
+     * or as a client
+     */
+     int is_bridge;
 	/**
 	 * Returned from the connect when the MQTT version used to connect is 3.1.1
 	 */
@@ -961,16 +966,18 @@ typedef struct
 } MQTTClient_connectOptions;
 
 #define MQTTClient_connectOptions_initializer { {'M', 'Q', 'T', 'C'}, 8, 60, 1, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_DEFAULT, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_DEFAULT, 0,  {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                    \
+NULL}
 
 #define MQTTClient_connectOptions_initializer5 { {'M', 'Q', 'T', 'C'}, 8, 60, 0, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_5, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_5, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
 
 #define MQTTClient_connectOptions_initializer_ws { {'M', 'Q', 'T', 'C'}, 8, 45, 1, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_DEFAULT, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_DEFAULT, 0, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                        \
+NULL}
 
 #define MQTTClient_connectOptions_initializer5_ws { {'M', 'Q', 'T', 'C'}, 8, 45, 0, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_5, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_5, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
 
 /**
   * This function attempts to connect a previously-created client (see
