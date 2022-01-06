@@ -1633,11 +1633,11 @@ static MQTTResponse MQTTClient_connectURI(MQTTClient handle, MQTTClient_connectO
 
 	if (MQTTVersion == MQTTVERSION_DEFAULT)
 	{
-		rc = MQTTClient_connectURIVersion(handle, options, serverURI, 0x84, start, millisecsTimeout,
+		rc = MQTTClient_connectURIVersion(handle, options, serverURI, 4, start, millisecsTimeout,
 				connectProperties, willProperties);
 		if (rc.reasonCode != MQTTCLIENT_SUCCESS)
 		{
-			rc = MQTTClient_connectURIVersion(handle, options, serverURI, 0x83, start, millisecsTimeout,
+			rc = MQTTClient_connectURIVersion(handle, options, serverURI, 3, start, millisecsTimeout,
 					connectProperties, willProperties);
 		}
 	}
@@ -1657,7 +1657,7 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 {
 	MQTTClients* m = handle;
 	MQTTResponse response;
-    m->c->is_bridge = options->is_bridge;
+    m->c->is_bridge = (options->is_bridge) ? 1: 0;
 
 	if (m->c->MQTTVersion >= MQTTVERSION_5)
 		return MQTTCLIENT_WRONG_MQTT_VERSION;
