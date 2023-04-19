@@ -1667,10 +1667,15 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 	if (response.reasonCode == MQTTCLIENT_SUCCESS)
     {
 		int one = 1;
-		if (setsockopt(m->c->net.socket, SOL_TCP, TCP_NODELAY, &one, sizeof(one)) == 0) {
-			printf("Paho: TCP_NODELAY set successfully.\n");
-			return MQTTCLIENT_SUCCESS;
+		if (setsockopt(m->c->net.socket, SOL_TCP, TCP_NODELAY, &one, sizeof(one)) != 0) {
+			return MQTTCLIENT_FAILURE;
+		} 
+		printf("Paho: TCP_NODELAY set successfully.\n");
+		if (setsockopt(m->c->net.socket, SOL_TCP, TCP_CORK, &one, sizeof(one)) != 0) {
+			return MQTTCLIENT_FAILURE;
 		}
+		printf("Paho: TCP_CORK set successfully.\n");
+
 		return MQTTCLIENT_FAILURE;
 	}
 
