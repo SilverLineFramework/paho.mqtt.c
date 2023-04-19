@@ -1664,6 +1664,16 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 
 	response = MQTTClient_connectAll(handle, options, NULL, NULL);
 
+	if (response.reasonCode == MQTTCLIENT_SUCCESS)
+    {
+		int one = 1;
+		if (setsockopt(m->c->net.socket, SOL_TCP, TCP_NODELAY, &one, sizeof(one)) == 0) {
+			printf("Paho: TCP_NODELAY set successfully.\n");
+			return MQTTCLIENT_SUCCESS;
+		}
+		return MQTTCLIENT_FAILURE;
+	}
+
 	return response.reasonCode;
 }
 
