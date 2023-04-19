@@ -1676,7 +1676,7 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 		}
 		printf("Paho: TCP_CORK set successfully.\n");
 
-		return MQTTCLIENT_FAILURE;
+		return MQTTCLIENT_SUCCESS;
 	}
 
 	return response.reasonCode;
