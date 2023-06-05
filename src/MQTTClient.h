@@ -200,6 +200,10 @@
   * Return code: 0 length will topic on connect
   */
  #define MQTTCLIENT_0_LEN_WILL_TOPIC -17
+/**
+  * Return code: failed to set tcp nodelay
+  */
+ #define MQTTCLIENT_TCP_NO_DELAY_FAIL -18
 
 
 /**
@@ -939,11 +943,15 @@ typedef struct
 	 * MQTTVERSION_5 (5) = only try version 5.0
 	 */
 	int MQTTVersion;
-    /**
-     * is_bridge flag that decides whether to connect as a bridge simulation
-     * or as a client
-     */
-     int is_bridge;
+  /**
+   * isBridge flag that decides whether to connect as a bridge simulation
+   * or as a client
+   */
+  int isBridge;
+	/**
+	 * This is a boolean value. Wheather to set TCP_NODELAY on the client socket
+   */
+	int setNoDelay;     
 	/**
 	 * Returned from the connect when the MQTT version used to connect is 3.1.1
 	 */
@@ -985,25 +993,25 @@ typedef struct
 
 /** Initializer for connect options for MQTT 3.1.1 non-WebSocket connections */
 #define MQTTClient_connectOptions_initializer { {'M', 'Q', 'T', 'C'}, 8, 60, 1, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_DEFAULT, 0,  {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                    \
+0, NULL, MQTTVERSION_DEFAULT, 0,  0, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                    \
 NULL}
 
 /** Initializer for connect options for MQTT 5.0 non-WebSocket connections */
 #define MQTTClient_connectOptions_initializer5 { {'M', 'Q', 'T', 'C'}, 8, 60, 0, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_5, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_5, 0, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
 
 /** Initializer for connect options for MQTT 3.1.1 WebSockets connections.
   * The keepalive interval is set to 45 seconds to avoid webserver 60 second inactivity timeouts.
   */
 #define MQTTClient_connectOptions_initializer_ws { {'M', 'Q', 'T', 'C'}, 8, 45, 1, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_DEFAULT, 0, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                        \
+0, NULL, MQTTVERSION_DEFAULT, 0, 0, {NULL, 0, 0}, {0, NULL}, -1, 0, NULL, NULL,                                        \
 NULL}
 
 /** Initializer for connect options for MQTT 5.0 WebSockets connections.
   * The keepalive interval is set to 45 seconds to avoid webserver 60 second inactivity timeouts.
   */
 #define MQTTClient_connectOptions_initializer5_ws { {'M', 'Q', 'T', 'C'}, 8, 45, 0, 1, NULL, NULL, NULL, 30, 0, NULL,\
-0, NULL, MQTTVERSION_5, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
+0, NULL, MQTTVERSION_5, 0, 0, {NULL, 0, 0}, {0, NULL}, -1, 1, NULL, NULL, NULL}
 
 /**
   * This function attempts to connect a previously-created client (see
