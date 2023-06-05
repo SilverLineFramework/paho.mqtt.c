@@ -1711,12 +1711,19 @@ int MQTTClient_connect(MQTTClient handle, MQTTClient_connectOptions* options)
 {
 	MQTTClients* m = handle;
 	MQTTResponse response;
-    m->c->is_bridge = (options->is_bridge) ? 1: 0;
+    m->c->isBridge = (options->isBridge) ? 1: 0;
 
 	if (m != NULL && m->c != NULL && m->c->MQTTVersion >= MQTTVERSION_5)
 		return MQTTCLIENT_WRONG_MQTT_VERSION;
 
 	response = MQTTClient_connectAll(handle, options, NULL, NULL);
+
+	if (response.reasonCode == MQTTCLIENT_SUCCESS && options->setNoDelay)
+    {
+		int one = 1;
+		if (setsockopt(m->c->net.socket, SOL_TCP, TCP_NODELAY, &one, sizeof(one)) == 0) return MQTTCLIENT_SUCCESS;
+		else return MQTTCLIENT_TCP_NO_DELAY_FAIL;
+	}
 
 	return response.reasonCode;
 }
